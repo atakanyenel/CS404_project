@@ -1,2 +1,2 @@
 # CS404_project
-c++ implementation of Prolog language to play the wumpus world game in GUI.
+C++ implementation of the Prolog language to demonstrate the AI "Wumpus" world by rendering it with openGL and SFML.
