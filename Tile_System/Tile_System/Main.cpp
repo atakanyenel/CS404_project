@@ -2,37 +2,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/OpenGL.hpp>
+#include "Header.h"
 
 using namespace std;
 
-struct Cell
-{
-	bool Breeze;
-	bool Glitter;
-	bool Smell;
-	bool Wumpus;
-	bool Pit;
-	bool Gold;
-	bool Safe;
-	bool visited;
 
-	Cell()
-	{
-		Breeze = false;
-		Glitter = false;
-		Smell = false;
-		Wumpus = false;
-		Pit = false;
-		Gold = false;
-		Safe = false;
-		visited = false;
-	}
-};
-
-struct Map
-{
-	Cell World[5][5];
-};
 
 int main()
 {
@@ -46,9 +20,7 @@ int main()
 	//-- Declarations Sections --//
 	int mapScale = 5;
 	Map gameMap;
-	 
-
-	//gameMap.CreateWorld();
+	gameMap.CreateWorld();
 
 	//-- Stores tile information --//
 
@@ -62,15 +34,31 @@ int main()
 
 	sf::RectangleShape wumpusRect;
 	wumpusRect.setFillColor(sf::Color::Green);
-	wumpusRect.setSize(sf::Vector2f(25, 25));
+	wumpusRect.setSize(sf::Vector2f(50, 50));
+
+	sf::RectangleShape pitRect;
+	pitRect.setFillColor(sf::Color::Black);
+	pitRect.setSize(sf::Vector2f(50, 50));
 
 	sf::RectangleShape baseRect;
 	baseRect.setFillColor(sf::Color::Blue);
 	baseRect.setSize(sf::Vector2f(90, 90));
 
+	//-- Attribute Rectangles --//
 
+	sf::RectangleShape breezeRect;
+	breezeRect.setFillColor(sf::Color::Cyan);
+	breezeRect.setSize(sf::Vector2f(25, 25));
+
+	sf::RectangleShape glitterRect;
+	glitterRect.setFillColor(sf::Color::Magenta);
+	glitterRect.setSize(sf::Vector2f(25, 25));
 	
 
+	sf::Color smellColor(165, 42, 42);
+	sf::RectangleShape smellRect;
+	smellRect.setFillColor(smellColor);
+	smellRect.setSize(sf::Vector2f(25, 25));
 
 
 	//-- Main Game Loop --//
@@ -101,17 +89,20 @@ int main()
 
 				if (gameMap.World[i][j].Breeze)
 				{
-
+					breezeRect.setPosition((i * 100) + 10, (j * 100) + 10);
+					window.draw(breezeRect);
 				}
 
 				if (gameMap.World[i][j].Smell)
 				{
-
+					smellRect.setPosition((i * 100) + 10, (j * 100) + 60);
+					window.draw(smellRect);
 				}
 
 				if (gameMap.World[i][j].Glitter)
 				{
-
+					glitterRect.setPosition((i * 100) + 60, (j * 100) + 10);
+					window.draw(glitterRect);
 				}
 
 				//-- Render the cell objects --//
@@ -124,12 +115,14 @@ int main()
 
 				if (gameMap.World[i][j].Pit)
 				{
-
+					pitRect.setPosition((i * 100) + 25, (j * 100) + 25);
+					window.draw(pitRect);
 				}
 
 				if (gameMap.World[i][j].Wumpus)
 				{
-
+					wumpusRect.setPosition((i * 100) + 25, (j * 100) + 25);
+					window.draw(wumpusRect);
 				}
 			}
 		}
