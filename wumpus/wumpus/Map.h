@@ -14,6 +14,7 @@ struct Cell
 	bool Gold;
 	bool Safe;
 	bool visited;
+
 	Cell()
 	{
 		Breeze=false;
@@ -24,14 +25,6 @@ struct Cell
 		Gold=false;
 		Safe=false;
 		visited=false;
-	}
-	bool isSafe()
-	{
-		if(Pit || Wumpus)
-		{
-			return false;
-		}
-		return true;
 	}
 };
 
@@ -45,7 +38,7 @@ public:
 	Map(int size);
 	void CreateWorld();
 	void setRules();
-	Cell World[4][4];
+	Cell World[5][5];
 	Map operator=(Map other);
 	Cell * operator[](int a)
 	{
@@ -53,7 +46,7 @@ public:
 	}
 	~Map(void);
 	int size;
-	int adj[4][2];
+	int adj[5][2];
 private:
 	void setAdjBreeze(int r,int c);
 	void setAdjSmell(int r,int c);

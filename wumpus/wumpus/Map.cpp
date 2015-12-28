@@ -2,7 +2,7 @@
 
 Map::Map()
 {
-	size=4;
+	size=5;
 
 }
 
@@ -19,20 +19,22 @@ void Map::CreateWorld()
 {
 	//There is 1 wumpus
 	World[2][0].Wumpus=true;
+
 	//3 pits
 	World[2][2].Pit=true;
 	World[3][3].Pit=true;
 	World[0][2].Pit=true;
+
 	//1 Gold
 	World[2][1].Gold=true;
 
-	setRules();
+	//setRules();
 }
 void Map::setRules()
 {
-	for(int k=0;k<4;k++)
+	for(int k=0;k<5;k++)
 	{
-		for(int j=0;j<4;j++)
+		for(int j=0;j<5;j++)
 		{
 			if(World[k][j].Pit)
 			{
@@ -44,7 +46,7 @@ void Map::setRules()
 			}
 			else if(World[k][j].Gold)
 			{
-				World[k][j].Glitter=true;//Square with Gold glitters
+				
 			}
 
 		}
@@ -99,5 +101,4 @@ Map Map::operator=(Map other)
 		}
 	}
 	return mymap;
-
 }

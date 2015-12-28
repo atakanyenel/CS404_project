@@ -30,13 +30,6 @@ public:
 		int currentr;
 private:
 	Map local;
-
-
-
-	
-	
 	bool hasarrow;
-
-	
 };
 
