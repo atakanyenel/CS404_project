@@ -60,10 +60,22 @@ int main()
 	smellRect.setFillColor(smellColor);
 	smellRect.setSize(sf::Vector2f(25, 25));
 
+	//-- Player Rectangle --//
+
+	sf::RectangleShape playerRect;
+	playerRect.setFillColor(sf::Color::Red);
+	playerRect.setSize(sf::Vector2f(50, 50));
+
+	//-- Player Information --//
+	
+	int playerX = 4;
+	int playerY = 4;
 
 	//-- Main Game Loop --//
 	while (window.isOpen())
 	{
+		Sleep(250);
+
 		//-- Event Methods --//
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -72,6 +84,11 @@ int main()
 			{
 				window.close();
 			}
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		{
+			playerY--;
 		}
 
 
@@ -126,6 +143,9 @@ int main()
 				}
 			}
 		}
+
+		playerRect.setPosition(playerX * 100 + 25, playerY * 100  + 25);
+		window.draw(playerRect);
 
 
 		window.display();
