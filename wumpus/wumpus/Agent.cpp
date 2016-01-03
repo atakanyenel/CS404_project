@@ -111,7 +111,7 @@ void Agent::Shoot(Map &World)
 }
 void Agent::UpdateLocal(Cell  current)
 {
-	local.World[currentr][currentc]=current;
+	local.World[currentr][currentc]=current;	//write the observations on local Map
 	local.World[currentr][currentc].Safe=true;
 	local[currentr][currentc].visited=true;
 
@@ -223,4 +223,22 @@ void Agent::setDirection(int d)
 	default:
 		break;
 	}
+}
+void Agent::CheckInconsistent()
+{
+	for(int r=0;r<local.size;r++)
+	{
+		for (int c=0;c<local.size;c++)
+		{
+			if(local[r][c].Pit && local[r][c].Wumpus)
+			{
+				local[r][c].Pit=false;
+				local[r][c].Wumpus=false;
+				local[r][c].Safe=true;
+			}
+			
+		}
+	}
+
+
 }

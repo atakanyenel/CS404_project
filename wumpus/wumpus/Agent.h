@@ -23,6 +23,7 @@ public:
 	void PrintLocal();
 	void CheckPit(int adj[4][2]);
 	void CheckWumpus(int adj[4][2]);
+	void CheckInconsistent();
 	Cell getCurrentCell(Map m);
 		bool hasGold;
 
