@@ -14,7 +14,8 @@ struct Hucre
 	bool Gold;
 	bool Safe;
 	bool visited;
-
+	int absnowumpus;
+	int absnopit;
 	Hucre()
 	{
 		Breeze=false;
@@ -25,6 +26,8 @@ struct Hucre
 		Gold=false;
 		Safe=false;
 		visited=false;
+		absnowumpus=false;
+		absnopit=false;
 	}
 };
 

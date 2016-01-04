@@ -19,9 +19,10 @@ col=c;
 }
 };
 
-void Solve(Agent &,Percept&,vector<coor> &,int &,int &);
+void Solve(Agent &,Percept&,vector<coor> &,int &,int &,string &);
 void MovingAgent(Agent ,int &,int &);
 void printMap(Percept,int);
+void SetPlayerDirection(Agent,string &);
 int main()
 {
 	//-- Create the render Window --//
@@ -365,7 +366,7 @@ int main()
 		//-- All logic Methods and Player movement goes Here --//
 		if (ActionEnabled)
 		{
-			Solve(player,RealWorld,path,playerX,playerY);
+			Solve(player,RealWorld,path,playerX,playerY,playerDir);
 
 			ActionEnabled = false;
 		}
@@ -374,7 +375,7 @@ int main()
 }
 
 
-void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & PlayerY)
+void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & PlayerY,string & playerDir)
 {
 	int startingrow=agent.currentr;
 	int startingcol=agent.currentc;
@@ -395,6 +396,15 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 			{
 				agent.adjacentSafe();	//update the local map
 				agent.PrintLocal();
+			}
+
+			if(current.Smell==false)
+			{
+				agent.nowumpusadjacent(adj);
+			}
+			if(current.Breeze==false)
+			{
+				agent.nopitadjacent(adj);
 			}
 			if(current.Breeze==true)
 			{
@@ -417,6 +427,7 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 				if(nextCell.visited==false && nextCell.Safe==true) //Found a new unvisited cell
 				{
 					agent.setDirection(k);	//setDirection function is dependent on k
+					SetPlayerDirection(agent,playerDir);
 					path.push_back(*new coor(agent.currentr,agent.currentc));
 					
 					agent.Forward();
@@ -489,4 +500,16 @@ void printMap(Percept m,int size)
 		}
 		cout<<endl;
 	}
+}
+void SetPlayerDirection(Agent a,string &pdir)
+{
+	if(a.dir==a.NORTH)
+		pdir="up";
+	else if(a.dir==a.SOUTH)
+	pdir="down";
+	else if(a.dir==a.WEST)
+		pdir="left";
+	else if(a.dir==a.EAST)
+		pdir="right";
+
 }

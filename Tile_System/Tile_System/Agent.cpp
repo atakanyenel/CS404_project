@@ -150,19 +150,26 @@ void Agent::adjacentSafe()
 	if(currentr-1>-1)
 	{
 		local.World[currentr-1][currentc].Safe=true;
+	
 	}
 	if(currentr+1<local.size)
 	{
 		local.World[currentr+1][currentc].Safe=true;
+	
+		
 	}
 	if(currentc-1>-1)
 	{
 		local.World[currentr][currentc-1].Safe=true;
 	
+	
+
 	}
 	if(currentc+1<local.size)
 	{
 		local.World[currentr][currentc+1].Safe=true;
+		
+	
 	}
 }
 Hucre Agent::getCurrentCell(Percept m)
@@ -178,7 +185,7 @@ void Agent::CheckPit(int adj[4][2])
 		int newcol=currentc+adj[k][1];
 		if(newrow>-1 && newrow<local.size && newcol>-1 && newcol<local.size)
 		{
-			if(local[newrow][newcol].Safe==false)
+			if(local[newrow][newcol].Safe==false && local[newrow][newcol].absnopit==false)
 			{
 				local[newrow][newcol].Pit=true;
 			}
@@ -196,7 +203,7 @@ void Agent::CheckWumpus(int adj[4][2])
 		int newcol=currentc+adj[k][1];
 		if(newrow>-1 && newrow<local.size && newcol>-1 && newcol<local.size)
 		{
-			if(local[newrow][newcol].Safe==false )
+			if(local[newrow][newcol].Safe==false && local[newrow][newcol].absnowumpus==false)
 			{
 				local[newrow][newcol].Wumpus=true;
 			}
@@ -234,7 +241,7 @@ void Agent::CheckInconsistent()
 	{
 		for (int c=0;c<local.size;c++)
 		{
-			if(local[r][c].Pit && local[r][c].Wumpus)
+			if(local[r][c].absnopit && local[r][c].absnowumpus)
 			{
 				local[r][c].Pit=false;
 				local[r][c].Wumpus=false;
@@ -245,4 +252,29 @@ void Agent::CheckInconsistent()
 	}
 
 
+}
+void Agent::nopitadjacent(int adj[4][2]){
+
+	for(int k=0;k<4;k++)
+	{
+		int newrow=currentr+adj[k][0];
+		int newcol=currentc+adj[k][1];
+		if(newrow>-1 && newrow<local.size && newcol>-1 && newcol<local.size)
+		{
+			local[newrow][newcol].absnopit=true;
+		
+		}
+	}}
+void Agent::nowumpusadjacent(int adj[4][2])
+{
+	for(int k=0;k<4;k++)
+	{
+		int newrow=currentr+adj[k][0];
+		int newcol=currentc+adj[k][1];
+		if(newrow>-1 && newrow<local.size && newcol>-1 && newcol<local.size)
+		{
+			local[newrow][newcol].absnowumpus=true;
+		
+		}
+	}
 }

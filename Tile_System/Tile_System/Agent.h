@@ -25,6 +25,8 @@ public:
 	void CheckWumpus(int adj[4][2]);
 	void CheckInconsistent();
 	Hucre getCurrentCell(Percept m);
+	void nowumpusadjacent(int adj[4][2]);
+	void nopitadjacent(int adj[4][2]);
 		bool hasGold;
 
 	int currentc;

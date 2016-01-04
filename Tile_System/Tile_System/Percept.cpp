@@ -26,7 +26,7 @@ void Percept::CreateWorld()
 	World[0][2].Pit=true;
 
 	//1 Gold
-	World[4][4].Gold=true;
+	World[4][4].Gold=true;		//World[2][1].Gold=true;	World[4][4].Gold
 
 	setRules();
 }
