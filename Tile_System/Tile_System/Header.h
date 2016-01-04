@@ -29,7 +29,7 @@ struct Map
 	void CreateWorld()
 	{
 		//-- Enter World Data Here --//
-		World[1][2].Gold = true;
+		World[4][0].Gold = true;
 		World[2][2].Pit = true;
 
 		World[3][1].Pit = true;
