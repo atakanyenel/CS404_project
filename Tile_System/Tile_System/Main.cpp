@@ -47,17 +47,17 @@ int main()
 	//-- Attribute Rectangles --//
 
 	sf::RectangleShape breezeRect;
-	breezeRect.setFillColor(sf::Color::Cyan);
+	breezeRect.setFillColor(sf::Color::Black);
 	breezeRect.setSize(sf::Vector2f(25, 25));
 
 	sf::RectangleShape glitterRect;
-	glitterRect.setFillColor(sf::Color::Magenta);
+	glitterRect.setFillColor(sf::Color::Yellow);
 	glitterRect.setSize(sf::Vector2f(25, 25));
 	
 
 	sf::Color smellColor(165, 42, 42);
 	sf::RectangleShape smellRect;
-	smellRect.setFillColor(smellColor);
+	smellRect.setFillColor(sf::Color::Green);
 	smellRect.setSize(sf::Vector2f(25, 25));
 
 	//-- Player Rectangle --//
@@ -68,14 +68,16 @@ int main()
 
 	//-- Player Information --//
 	
-	int playerX = 4;
+	int playerX = 0;
 	int playerY = 4;
+
+	//-- Main action boolean --//
+
+	bool ActionEnabled = false;
 
 	//-- Main Game Loop --//
 	while (window.isOpen())
 	{
-		Sleep(250);
-
 		//-- Event Methods --//
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -84,11 +86,14 @@ int main()
 			{
 				window.close();
 			}
-		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		{
-			playerY--;
+			if (event.type == sf::Event::KeyReleased)
+			{
+				if (event.key.code == sf::Keyboard::Space)
+				{
+					ActionEnabled = true;
+				}
+			}
 		}
 
 
@@ -146,9 +151,18 @@ int main()
 
 		playerRect.setPosition(playerX * 100 + 25, playerY * 100  + 25);
 		window.draw(playerRect);
-
-
 		window.display();
+
+
+		//-- All logic Methods and Player movement goes Here --//
+		if (ActionEnabled)
+		{
+			playerY--;
+			playerX++;
+
+
+			ActionEnabled = false;
+		}
 	}
 	return 0;
 }

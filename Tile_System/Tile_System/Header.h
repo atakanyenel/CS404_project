@@ -29,9 +29,13 @@ struct Map
 	void CreateWorld()
 	{
 		//-- Enter World Data Here --//
-		World[1][1].Gold = true;
-		World[0][0].Pit = true;
-		World[3][3].Wumpus = true;
+		World[1][2].Gold = true;
+		World[2][2].Pit = true;
+
+		World[3][1].Pit = true;
+		World[2][4].Pit = true;
+
+		World[0][2].Wumpus = true;
 		setRules();
 	}
 
@@ -58,10 +62,7 @@ struct Map
 				}
 				else if (World[k][j].Gold)
 				{
-					World[k + 1][j].Glitter = true;
-					World[k - 1][j].Glitter = true;
-					World[k][j + 1].Glitter = true;
-					World[k][j - 1].Glitter = true;
+					World[k][j].Glitter = true;
 				}
 			}
 		}

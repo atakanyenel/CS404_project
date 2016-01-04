@@ -1,17 +1,23 @@
-﻿Build started 28.12.2015 17:58:19.
-     1>Project "C:\Users\Thinkpad\Desktop\WIP\Tile_System\Tile_System\Tile_System.vcxproj" on node 2 (Build target(s)).
+﻿Build started 4.1.2016 16:26:40.
+     1>Project "C:\Users\Thinkpad\Desktop\GitReps\CS404_project\Tile_System\Tile_System\Tile_System.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Thinkpad\Desktop\WIP\Tile_System\\SFML-2.3.2\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Thinkpad\Desktop\GitReps\CS404_project\Tile_System\\SFML-2.3.2\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp
          Main.cpp
-     1>Main.cpp(105): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(129): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(107): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(114): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(120): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(126): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(134): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(140): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(146): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(152): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Thinkpad\Desktop\WIP\Tile_System\Release\Tile_System.exe" /NOLOGO /LIBPATH:"C:\Users\Thinkpad\Desktop\WIP\Tile_System\\SFML-2.3.2\lib" "sfml-graphics.lib" "sfml-window.lib" "sfml-system.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Thinkpad\Desktop\WIP\Tile_System\Release\Tile_System.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Thinkpad\Desktop\WIP\Tile_System\Release\Tile_System.lib" /MACHINE:X86 /SAFESEH Release\Main.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Thinkpad\Desktop\GitReps\CS404_project\Tile_System\Release\Tile_System.exe" /NOLOGO /LIBPATH:"C:\Users\Thinkpad\Desktop\GitReps\CS404_project\Tile_System\\SFML-2.3.2\lib" "sfml-graphics.lib" "sfml-window.lib" "sfml-system.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Thinkpad\Desktop\GitReps\CS404_project\Tile_System\Release\Tile_System.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Thinkpad\Desktop\GitReps\CS404_project\Tile_System\Release\Tile_System.lib" /MACHINE:X86 /SAFESEH Release\Main.obj
          Generating code
          Finished generating code
-         Tile_System.vcxproj -> C:\Users\Thinkpad\Desktop\WIP\Tile_System\Release\Tile_System.exe
-     1>Done Building Project "C:\Users\Thinkpad\Desktop\WIP\Tile_System\Tile_System\Tile_System.vcxproj" (Build target(s)).
+         Tile_System.vcxproj -> C:\Users\Thinkpad\Desktop\GitReps\CS404_project\Tile_System\Release\Tile_System.exe
+     1>Done Building Project "C:\Users\Thinkpad\Desktop\GitReps\CS404_project\Tile_System\Tile_System\Tile_System.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.20
+Time Elapsed 00:00:01.45
