@@ -2,11 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/OpenGL.hpp>
-#include "Header.h"
+//#include "Header.h"
 #include "Agent.h"
 #include <vector>
 using namespace std;
 int adj[4][2]={{1,0},{-1,0},{0,1},{0,-1}};
+int gamestate=0;
 struct coor{
 
 int row;
@@ -19,10 +20,12 @@ col=c;
 }
 };
 
-void Solve(Agent &,Percept&,vector<coor> &,int &,int &,string &);
+void Solve(Agent &,Percept&,vector<coor> &,int &,int &,string &,Map&);
 void MovingAgent(Agent ,int &,int &);
 void printMap(Percept,int);
 void SetPlayerDirection(Agent,string &);
+void GrabbingGold(Agent,Map &);
+void ReleasingGold(Agent,Map &);
 int main()
 {
 	//-- Create the render Window --//
@@ -186,12 +189,12 @@ int main()
 		/*****ATAKAN****/
 			/*Create the world in percept form*/
 	int size=5;
-	Percept RealWorld(5);
+	Percept RealWorld(gameMap,5);
 	Agent player(RealWorld,0,0);
 	vector<coor> path;
-
-	RealWorld.CreateWorld();
+	//RealWorld.CreateWorld();
 	printMap(RealWorld,5);
+	cout<<endl<<endl<<endl;
 	/*****END OF ATAKAN*****/
 
 	
@@ -296,7 +299,8 @@ int main()
 					//window.draw(glitterRect);
 
 					glimmerText.setPosition(glitterRect.getPosition().x + 15, glitterRect.getPosition().y);
-					window.draw(glimmerText);
+					if(!player.hasGold)
+						window.draw(glimmerText);
 				}
 
 				//-- Render the cell objects --//
@@ -307,6 +311,7 @@ int main()
 					//window.draw(goldRect);
 
 					goldSprite.setPosition(goldRect.getPosition().x + 5, goldRect.getPosition().y);
+					if(!player.hasGold)
 					window.draw(goldSprite);
 				}
 
@@ -366,7 +371,7 @@ int main()
 		//-- All logic Methods and Player movement goes Here --//
 		if (ActionEnabled)
 		{
-			Solve(player,RealWorld,path,playerX,playerY,playerDir);
+			Solve(player,RealWorld,path,playerX,playerY,playerDir,gameMap);
 
 			ActionEnabled = false;
 		}
@@ -375,7 +380,7 @@ int main()
 }
 
 
-void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & PlayerY,string & playerDir)
+void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & PlayerY,string & playerDir,Map & gw)
 {
 	int startingrow=agent.currentr;
 	int startingcol=agent.currentc;
@@ -389,6 +394,7 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 		if(current.Glitter==true)
 		{
 			agent.Grab(m);	//This function updates the real world. hasGold returns true
+			GrabbingGold(agent,gw);
 		}
 		else
 		{
@@ -455,9 +461,14 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 		path.pop_back();
 		MovingAgent(agent,PlayerX,PlayerY);
 	}
+	if(agent.hasGold && agent.currentr==0 && agent.currentc==0)
+	{
 	agent.Release(m);
 	agent.PrintLocal();
-}
+	ReleasingGold(agent,gw);
+	gamestate=1;			//Win State
+	}
+	}
 void MovingAgent(Agent a,int& px,int& py)
 {
 	px=a.currentc;
@@ -476,23 +487,24 @@ void printMap(Percept m,int size)
 			{
 				cout<<" G ";
 			}
-			else if(current.Breeze)
-			{
-				cout<<" B ";
-			}
-
 			else if(current.Pit)
 			{
 				cout<<" P ";
 			}
+			else if(current.Breeze)
+			{
+				cout<<" B ";
+			}
+				else if(current.Wumpus)
+			{
+				cout<<" W ";
+			}
+			
 			else if(current.Smell)
 			{
 				cout<<" S ";
 			}
-			else if(current.Wumpus)
-			{
-				cout<<" W ";
-			}
+		
 			else
 			{
 				cout<<" - ";
@@ -511,5 +523,19 @@ void SetPlayerDirection(Agent a,string &pdir)
 		pdir="left";
 	else if(a.dir==a.EAST)
 		pdir="right";
+
+}
+void GrabbingGold(Agent a,Map & m)
+{
+	m.World[a.currentc][abs(4-a.currentr)].Gold=false;
+	m.World[a.currentc][abs(4-a.currentr)].Glitter=false;
+	
+	
+}
+
+void ReleasingGold(Agent a,Map & m)
+{
+	m.World[a.currentc][abs(4-a.currentr)].Gold=true;
+	m.World[a.currentc][abs(4-a.currentr)].Glitter=true;
 
 }

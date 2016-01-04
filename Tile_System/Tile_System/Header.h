@@ -29,18 +29,16 @@ struct Map
 	void CreateWorld()
 	{
 		//-- Enter World Data Here --//
-		World[4][0].Gold = true; //World[1][2].Gold=true;
-		World[2][2].Pit = true;
-
-		World[3][1].Pit = true;
-		World[2][4].Pit = true;
+		World[4][0].Gold = true; //World[1][2].Gold=true; World[4][0]
+		
+		World[0][0].Pit = true;
+		World[3][4].Pit=true;
 
 		World[0][2].Wumpus = true;
 		setRules();
 	}
 
-
-	void setRules()
+void setRules()
 	{
 		for (int k = 0; k < 5; k++)
 		{
@@ -48,16 +46,24 @@ struct Map
 			{
 				if (World[k][j].Pit)
 				{
+					if(k<4)
 					World[k + 1][j].Breeze = true;
+					if(k>0)
 					World[k - 1][j].Breeze = true;
+					if(j<4)
 					World[k][j + 1].Breeze = true;
+					if(j>0)
 					World[k][j - 1].Breeze = true;
 				}
 				else if (World[k][j].Wumpus)
 				{
+					if(k<4)
 					World[k + 1][j].Smell = true;
+					if(k>0)
 					World[k - 1][j].Smell = true;
+					if(j<4)
 					World[k][j + 1].Smell = true;
+					if(j>0)
 					World[k][j - 1].Smell = true;
 				}
 				else if (World[k][j].Gold)

@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "Header.h"
 using namespace std;
 
  
@@ -39,6 +40,28 @@ class Percept
 public:
 	Percept(void);
 	Percept(int size);
+	Percept(Map m,int size)
+	{
+		for (int row=0;row<size;row++)
+		{
+			for(int col=0;col<size;col++)
+			{
+				if(m.World[row][col].Pit)
+				{
+					World[abs(col-4)][row].Pit=true;
+				}
+				if(m.World[row][col].Wumpus)
+				{
+					World[abs(col-4)][row].Wumpus=true;
+				}
+				if(m.World[row][col].Gold)
+				{
+					World[abs(col-4)][row].Gold=true;
+				}
+			}
+		}
+			setRules();
+	}
 	void CreateWorld();
 	void setRules();
 	Hucre World[5][5];

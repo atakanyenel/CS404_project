@@ -11,7 +11,7 @@ Percept::Percept(int s)
 	size=s;
 }
 
-Percept::~Percept(void)
+Percept::~Percept()
 {
 }
 
@@ -21,37 +21,50 @@ void Percept::CreateWorld()
 	World[2][0].Wumpus=true;
 
 	//3 pits
-	World[2][2].Pit=true;
+	World[2][3].Pit=true;
 	World[3][3].Pit=true;
 	World[0][2].Pit=true;
-
 	//1 Gold
 	World[4][4].Gold=true;		//World[2][1].Gold=true;	World[4][4].Gold
 
 	setRules();
 }
-void Percept::setRules()
-{
-	for(int k=0;k<5;k++)
-	{
-		for(int j=0;j<5;j++)
-		{
-			if(World[k][j].Pit)
-			{
-				setAdjBreeze(k,j); //Set adjacent squares to Breeze
-			}
-			else if(World[k][j].Wumpus)
-			{
-				setAdjSmell(k,j);	//Set adjacent squares to Smell
-			}
-			else if(World[k][j].Gold)	//set square with gold to true
-			{
-				World[k][j].Glitter=true;
-			}
 
+	void Percept::setRules()
+	{
+		for (int k = 0; k < 5; k++)
+		{
+			for (int j = 0; j < 5; j++)
+			{
+				if (World[k][j].Pit)
+				{
+					if(k<4)
+					World[k + 1][j].Breeze = true;
+					if(k>0)
+					World[k - 1][j].Breeze = true;
+					if(j<4)
+					World[k][j + 1].Breeze = true;
+					if(j>0)
+					World[k][j - 1].Breeze = true;
+				}
+				else if (World[k][j].Wumpus)
+				{
+					if(k<4)
+					World[k + 1][j].Smell = true;
+					if(k>0)
+					World[k - 1][j].Smell = true;
+					if(j<4)
+					World[k][j + 1].Smell = true;
+					if(j>0)
+					World[k][j - 1].Smell = true;
+				}
+				else if (World[k][j].Gold)
+				{
+					World[k][j].Glitter = true;
+				}
+			}
 		}
 	}
-}
 void Percept::setAdjBreeze(int r,int c)
 {
 		if(r-1>-1)
