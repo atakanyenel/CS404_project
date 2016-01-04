@@ -174,7 +174,7 @@ void Agent::CheckPit(int adj[4][2])
 		int newcol=currentc+adj[k][1];
 		if(newrow>-1 && newrow<local.size && newcol>-1 && newcol<local.size)
 		{
-			if(local[newrow][newcol].Safe==false && local[newrow][newcol].Wumpus==false)
+			if(local[newrow][newcol].Safe==false)
 			{
 				local[newrow][newcol].Pit=true;
 			}
@@ -192,7 +192,7 @@ void Agent::CheckWumpus(int adj[4][2])
 		int newcol=currentc+adj[k][1];
 		if(newrow>-1 && newrow<local.size && newcol>-1 && newcol<local.size)
 		{
-			if(local[newrow][newcol].Safe==false && local[newrow][newcol].Pit==false)
+			if(local[newrow][newcol].Safe==false)
 			{
 				local[newrow][newcol].Wumpus=true;
 			}

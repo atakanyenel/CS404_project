@@ -107,7 +107,7 @@ void Solve(Agent agent,Map & m,vector<coor>  & path)
 				agent.CheckWumpus(adj); //Check adjacent for Wumpus
 			}
 
-			agent.CheckInconsistent();	//if both pit and wumpus neither is true
+			agent.CheckInconsistent();	//if both pit and wumpus are present neither is true
 
 			bool moved=false;
 			for(int k=0;k<4 && !moved;k++)		//AGENT TRIES TO MOVE
@@ -132,10 +132,14 @@ void Solve(Agent agent,Map & m,vector<coor>  & path)
 
 		}
 	}
-
-
-
-
-
+		
+	while (!path.empty()) //agent comes back from the road
+	{
+		agent.currentr=path.back().row;
+		agent.currentc=path.back().col;
+		path.pop_back();
+	
+	}
+	agent.Release(m);
 }
 
