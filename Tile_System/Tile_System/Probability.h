@@ -6,6 +6,18 @@ using namespace std;
 
 //static struct Map;
 typedef std::map<int, int>::iterator it_type;
+enum vars{PIT, WUMPUS, GOLD};
+
+struct probTree{
+	float val;
+	probTree *positive;
+	probTree *negative;
+	probTree *parent;
+	probTree() :positive(NULL), negative(NULL), parent(NULL),val(0)
+	{}
+};
+
+void insert(probTree *t, float p, bool twoSide);
 
 //probability functionlarý buraya gelecek
 
