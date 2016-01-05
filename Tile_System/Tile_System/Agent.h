@@ -28,11 +28,13 @@ public:
 	void nowumpusadjacent(int adj[4][2]);
 	void nopitadjacent(int adj[4][2]);
 		bool hasGold;
-
+	void definetelyWumpus(Percept &World);
+	bool isStuck();
 	int currentc;
 		int currentr;
-private:
 	Percept local;
+	bool wumpusfound;
+private:
 	bool hasarrow;
 };
 

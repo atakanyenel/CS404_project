@@ -9,6 +9,7 @@ Agent::Agent(Percept m,int r=0,int c=0)
 	dir=EAST;
 	hasGold=false;
 	hasarrow=true;
+	wumpusfound=false;
 }
 
 
@@ -277,4 +278,77 @@ void Agent::nowumpusadjacent(int adj[4][2])
 		
 		}
 	}
+}
+void Agent::definetelyWumpus(Percept &World){
+	if(!wumpusfound){
+	for (int j=0; j<5; j++){
+		for (int k=0; k<5; k++){
+			if(!World[j][k].Safe){
+			if((j>1)&&(k>1)&&(j<4)&&(k<4)){
+				if( ((World[j-1][k].Smell)&&(World[j+1][k].Smell)&&(World[j][k+1].Smell)) || ((World[j-1][k].Smell)&&(World[j+1][k].Smell)&&(World[j][k-1].Smell)) || ((World[j-1][k].Smell)&&(World[j][k+1].Smell)&&(World[j][k-1].Smell))|| ((World[j+1][k].Smell)&&(World[j][k+1].Smell)&&(World[j][k-1].Smell))){
+					World[j][k].definetelywumpus=true;
+					wumpusfound=true;
+				}
+			}
+ 			else if((k==0)&&((j!=0)||(j!=4))){
+				if(((World[j][k+1].Smell)&&(World[j-1][k].Smell)) || ((World[j+1][k].Smell)&&(World[j-1][k].Smell)) || ((World[j+1][k].Smell)&&(World[j][k+1].Smell)))
+					{World[j][k].definetelywumpus=true;
+						wumpusfound=true;
+					}
+			}
+			else if((j==0)&&((k!=0)||(k!=4))){
+				if(((World[j][k+1].Smell)&&(World[j][k-1].Smell)) || ((World[j+1][k].Smell)&&(World[j][k-1].Smell)) || ((World[j+1][k].Smell)&&(World[j][k+1].Smell)))
+					{World[j][k].definetelywumpus=true;
+					wumpusfound=true;}
+			}
+			else if((k==4)&&((j!=0)||(j!=4))){
+				if(((World[j][k-1].Smell)&&(World[j-1][k].Smell)) || ((World[j+1][k].Smell)&&(World[j-1][k].Smell)) || ((World[j+1][k].Smell)&&(World[j][k-1].Smell)))
+					{World[j][k].definetelywumpus=true;
+					wumpusfound=true;}
+			}
+			else if((j==4)&&((k!=0)||(k!=4))){
+				if(((World[j][k+1].Smell)&&(World[j][k-1].Smell)) || ((World[j-1][k].Smell)&&(World[j][k-1].Smell)) || ((World[j-1][k].Smell)&&(World[j][k+1].Smell)))
+					{World[j][k].definetelywumpus=true;
+					wumpusfound=true;}
+			}
+			else if((j==0)&&(k==0)){
+				if(World[j][k+1].Smell&&World[j+1][k].Smell)
+					{World[j][k].definetelywumpus=true;
+					wumpusfound=true;}
+			}
+			else if((j==4)&&(k==0)){
+				if(World[j][k+1].Smell&&World[j-1][k].Smell)
+					{World[j][k].definetelywumpus=true;
+					wumpusfound=true;}
+			}
+			else if((j==0)&&(k==4)){
+				if(World[j+1][k].Smell&&World[j][k-1].Smell)
+					{World[j][k].definetelywumpus=true;
+					wumpusfound=true;}
+			}
+			else if((j==4)&&(k==4)){
+				if(World[j-1][k].Smell&&World[j][k-1].Smell)
+					{World[j][k].definetelywumpus=true;
+					wumpusfound=true;}
+			}
+			}
+	}
+		}
+	}
+}
+
+bool Agent::isStuck()
+{
+	for(int row=0;row<local.size;row++)
+	{
+		for(int col=0;col<local.size;col++)
+		{
+			if(local.World[row][col].Safe==true && local.World[row][col].visited==false)
+				return false;
+			
+		
+		}
+		
+	}
+	return true;
 }

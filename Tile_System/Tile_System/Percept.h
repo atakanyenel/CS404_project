@@ -17,6 +17,7 @@ struct Hucre
 	bool visited;
 	int absnowumpus;
 	int absnopit;
+	bool definetelywumpus;
 	Hucre()
 	{
 		Breeze=false;
@@ -29,6 +30,7 @@ struct Hucre
 		visited=false;
 		absnowumpus=false;
 		absnopit=false;
+		definetelywumpus=false;
 	}
 };
 

@@ -30,10 +30,9 @@ struct Map
 	{
 		//-- Enter World Data Here --//
 		World[4][0].Gold = true; //World[1][2].Gold=true; World[4][0]
-		
 		World[0][0].Pit = true;
 		World[3][4].Pit=true;
-
+		World[2][2].Pit=true;
 		World[0][2].Wumpus = true;
 		setRules();
 	}

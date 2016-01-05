@@ -1,24 +1,25 @@
-﻿Build started 04.01.2016 23:38:08.
+﻿Build started 05.01.2016 02:41:47.
      1>Project "D:\Users\SUUSER\Documents\Ders\Junior\CS404\Project\CS404_project\Tile_System\Tile_System\Tile_System.vcxproj" on node 2 (Build target(s)).
        Project file contains ToolsVersion="12.0". This toolset is unknown or missing. You may be able to resolve this by installing the appropriate .NET Framework for this toolset. Treating the project as if it had ToolsVersion="4.0".
      1>ClCompile:
          D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"D:\Users\SUUSER\Documents\Ders\Junior\CS404\Project\CS404_project\Tile_System\\SFML-2.3.2\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp
          Main.cpp
-     1>Main.cpp(269): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(272): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Main.cpp(279): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(288): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(297): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(309): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(319): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(322): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Main.cpp(329): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(338): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(340): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Main.cpp(273): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(276): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Main.cpp(283): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(292): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(301): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(313): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(323): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(326): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Main.cpp(333): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(342): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(344): warning C4305: 'argument' : truncation from 'double' to 'float'
        Link:
          D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Users\SUUSER\Documents\Ders\Junior\CS404\Project\CS404_project\Tile_System\Release\Tile_System.exe" /NOLOGO /LIBPATH:"D:\Users\SUUSER\Documents\Ders\Junior\CS404\Project\CS404_project\Tile_System\\SFML-2.3.2\lib" "sfml-graphics.lib" "sfml-window.lib" "sfml-system.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Users\SUUSER\Documents\Ders\Junior\CS404\Project\CS404_project\Tile_System\Release\Tile_System.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Users\SUUSER\Documents\Ders\Junior\CS404\Project\CS404_project\Tile_System\Release\Tile_System.lib" /MACHINE:X86 /SAFESEH Release\Agent.obj
          Release\Main.obj
          Release\Percept.obj
+         Release\randgen.obj
          Generating code
          Finished generating code
          Tile_System.vcxproj -> D:\Users\SUUSER\Documents\Ders\Junior\CS404\Project\CS404_project\Tile_System\Release\Tile_System.exe
@@ -26,4 +27,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.86
+Time Elapsed 00:00:01.90

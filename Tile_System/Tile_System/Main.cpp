@@ -5,27 +5,29 @@
 //#include "Header.h"
 #include "Agent.h"
 #include <vector>
+#include "randgen.h"
 using namespace std;
 int adj[4][2]={{1,0},{-1,0},{0,1},{0,-1}};
 int gamestate=0;
 struct coor{
 
-int row;
-int col;
+	int row;
+	int col;
 
-coor(int r,int c)
-{
-row=r;
-col=c;
-}
+	coor(int r,int c)
+	{
+		row=r;
+		col=c;
+	}
 };
 
-void Solve(Agent &,Percept&,vector<coor> &,int &,int &,string &,Map&);
+void Solve(Agent &,Percept&,vector<coor> &,int &,int &,string &,Map&,vector<coor> &);
 void MovingAgent(Agent ,int &,int &);
 void printMap(Percept,int);
 void SetPlayerDirection(Agent,string &);
 void GrabbingGold(Agent,Map &);
 void ReleasingGold(Agent,Map &);
+void PossibleRoutes(Agent,vector<coor>&);
 int main()
 {
 	//-- Create the render Window --//
@@ -164,7 +166,7 @@ int main()
 	sf::RectangleShape glitterRect;
 	glitterRect.setFillColor(sf::Color::Yellow);
 	glitterRect.setSize(sf::Vector2f(25, 25));
-	
+
 
 	sf::Color smellColor(165, 42, 42);
 	sf::RectangleShape smellRect;
@@ -178,29 +180,30 @@ int main()
 	playerRect.setSize(sf::Vector2f(50, 50));
 
 	//-- Player Information --//
-	
+
 	int playerX = 0;
 	int playerY = 4;
 	string playerDir = "left";
 	//-- Main action boolean --//
 
-	
-	
-		/*****ATAKAN****/
-			/*Create the world in percept form*/
+
+
+	/*****ATAKAN****/
+	/*Create the world in percept form*/
 	int size=5;
 	Percept RealWorld(gameMap,5);
 	Agent player(RealWorld,0,0);
 	vector<coor> path;
+	vector<coor> possible;
 	//RealWorld.CreateWorld();
 	printMap(RealWorld,5);
 	cout<<endl<<endl<<endl;
 	/*****END OF ATAKAN*****/
 
-	
-	
-	
-	
+
+
+
+
 	bool ActionEnabled = false;
 
 	//-- Main Game Loop --//
@@ -312,7 +315,7 @@ int main()
 
 					goldSprite.setPosition(goldRect.getPosition().x + 5, goldRect.getPosition().y);
 					if(!player.hasGold)
-					window.draw(goldSprite);
+						window.draw(goldSprite);
 				}
 
 				if (gameMap.World[i][j].Pit)
@@ -371,7 +374,7 @@ int main()
 		//-- All logic Methods and Player movement goes Here --//
 		if (ActionEnabled)
 		{
-			Solve(player,RealWorld,path,playerX,playerY,playerDir,gameMap);
+			Solve(player,RealWorld,path,playerX,playerY,playerDir,gameMap,possible);
 
 			ActionEnabled = false;
 		}
@@ -380,7 +383,7 @@ int main()
 }
 
 
-void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & PlayerY,string & playerDir,Map & gw)
+void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & PlayerY,string & playerDir,Map & gw,vector<coor> & possible)
 {
 	int startingrow=agent.currentr;
 	int startingcol=agent.currentc;
@@ -435,16 +438,16 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 					agent.setDirection(k);	//setDirection function is dependent on k
 					SetPlayerDirection(agent,playerDir);
 					path.push_back(*new coor(agent.currentr,agent.currentc));
-					
+
 					agent.Forward();
 					MovingAgent(agent,PlayerX,PlayerY);
 					moved=true;
-					
+
 				}
 			}
 			if(!moved) //Agent did not move try something else
 			{
-				
+				//possible.push_back(*new coor(agent.currentr,agent.currentc));//Save the spot as the agent my have to try it later
 				agent.currentr=path.back().row;		//Agent goes one Cell back assuming there are safe unvisited Cells
 				agent.currentc=path.back().col;
 				path.pop_back();
@@ -452,8 +455,11 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 			}
 
 		}
+		cout<<endl<<endl;
+		agent.definetelyWumpus(agent.local);
+		printMap(agent.local,5);
 	}
-		
+
 	if (!path.empty() && agent.hasGold) //agent comes back from the road
 	{
 		agent.currentr=path.back().row;
@@ -463,12 +469,31 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 	}
 	if(agent.hasGold && agent.currentr==0 && agent.currentc==0)
 	{
-	agent.Release(m);
-	agent.PrintLocal();
-	ReleasingGold(agent,gw);
-	gamestate=1;			//Win State
+		agent.Release(m);
+		agent.PrintLocal();
+		ReleasingGold(agent,gw);
+		gamestate=1;			//Win State
 	}
+	if(agent.isStuck())
+	{
+		cout<<endl<<"I'm Stuck"<<endl;
+		PossibleRoutes(agent,possible);
+
+		int destiny=(*new RandGen).RandInt(0,possible.size()-1);
+		cout<<endl<<destiny<<endl;
+		coor destinycoor=possible.at(destiny);
+		path.push_back(*new coor(agent.currentr,agent.currentc));
+		path.push_back(destinycoor);
+		agent.currentr=destinycoor.row;
+		agent.currentc=destinycoor.col;
+		possible.clear();
+		cout<<agent.currentr<<" "<<agent.currentc<<endl;
+		MovingAgent(agent,PlayerX,PlayerY);
+
 	}
+
+
+}
 void MovingAgent(Agent a,int& px,int& py)
 {
 	px=a.currentc;
@@ -495,16 +520,21 @@ void printMap(Percept m,int size)
 			{
 				cout<<" B ";
 			}
-				else if(current.Wumpus)
+			else if((!current.definetelywumpus)&&current.Wumpus)
 			{
 				cout<<" W ";
 			}
-			
+
 			else if(current.Smell)
 			{
 				cout<<" S ";
 			}
-		
+
+			else if(current.definetelywumpus)
+			{
+				cout<<" C ";
+			}
+
 			else
 			{
 				cout<<" - ";
@@ -518,7 +548,7 @@ void SetPlayerDirection(Agent a,string &pdir)
 	if(a.dir==a.NORTH)
 		pdir="up";
 	else if(a.dir==a.SOUTH)
-	pdir="down";
+		pdir="down";
 	else if(a.dir==a.WEST)
 		pdir="left";
 	else if(a.dir==a.EAST)
@@ -529,8 +559,8 @@ void GrabbingGold(Agent a,Map & m)
 {
 	m.World[a.currentc][abs(4-a.currentr)].Gold=false;
 	m.World[a.currentc][abs(4-a.currentr)].Glitter=false;
-	
-	
+
+
 }
 
 void ReleasingGold(Agent a,Map & m)
@@ -538,4 +568,24 @@ void ReleasingGold(Agent a,Map & m)
 	m.World[a.currentc][abs(4-a.currentr)].Gold=true;
 	m.World[a.currentc][abs(4-a.currentr)].Glitter=true;
 
+}
+
+void PossibleRoutes(Agent a,vector<coor> & possible)
+{
+	for (int row=0;row<a.local.size;row++){
+		for (int col=0;col<a.local.size;col++)
+		{
+			if(a.local.World[row][col].Pit)
+			{
+				possible.push_back(*new coor(row,col));
+			}
+			else if(a.local.World[row][col].Wumpus && a.local.World[row][col].definetelywumpus==false)
+			{
+				possible.push_back(*new coor(row,col));
+
+			}
+
+
+		}
+	}
 }
