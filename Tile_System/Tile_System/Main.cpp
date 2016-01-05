@@ -1,7 +1,7 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/OpenGL.hpp>
+#include <iostream>
 //#include "Header.h"
 #include "Agent.h"
 #include <vector>
@@ -12,13 +12,21 @@ int gamestate=0;
 bool wumpusalive=true;
 
 
-void Solve(Agent &,Percept&,vector<coor> &,int &,int &,string &,Map&,vector<coor> &);
+void Solve(Agent &,Percept&,vector<coor> &,int &,int &,string &,Map&,vector<coor> &,sf::Sound &);
 void MovingAgent(Agent ,int &,int &);
 void printMap(Percept,int);
 void SetPlayerDirection(Agent,string &);
 void GrabbingGold(Agent,Map &);
 void ReleasingGold(Agent,Map &);
 void PossibleRoutes(Agent,vector<coor>&);
+
+//-- Global Audio Buffers --//
+
+sf::SoundBuffer buffer1;
+sf::SoundBuffer buffer2;
+sf::SoundBuffer buffer3;
+sf::SoundBuffer buffer4;
+sf::SoundBuffer buffer5;
 int main()
 {
 	//-- Create the render Window --//
@@ -32,12 +40,54 @@ int main()
 	Map gameMap;
 	gameMap.CreateWorld();
 
+	//-- Audio Section --//
+	
+	//-- Load all the sound files into seperate Buffers --//
+	
+	if (!buffer1.loadFromFile(".\\Audio\\Wumpus.ogg"))
+	{
+	}
+	else
+	{ cout << "Successfully loaded '\\Audio\\Wumpus.ogg'" << endl; }
+
+	if (!buffer2.loadFromFile(".\\Audio\\Stuck.ogg"))
+	{
+	}
+	else
+	{ cout << "Successfully loaded '\\Audio\\Stuck.ogg'" << endl; }
+
+	if (!buffer3.loadFromFile(".\\Audio\\Gold.ogg"))
+	{
+	}
+	else
+	{ cout << "Successfully loaded '\\Audio\\Gold.ogg'" << endl; }
+
+	if (!buffer4.loadFromFile(".\\Audio\\Death.ogg"))
+	{
+	}
+	else
+	{ cout << "Successfully loaded '\\Audio\\Death.ogg'" << endl; }
+
+	if (!buffer5.loadFromFile(".\\Audio\\Score.ogg"))
+	{
+	}
+	else
+	{ cout << "Successfully loaded '\\Audio\\Score.ogg'" << endl; }
+
+	//-- Define the sound --//
+	sf::Sound sound;
+	sound.setLoop(false);
+
 	//-- Fonts and other resources --//
 	sf::Font mainFont;
 
 	sf::Text breezeText;
 	sf::Text smellText;
 	sf::Text glimmerText;
+	sf::Text messageText;
+	messageText.setFont(mainFont);
+	messageText.setCharacterSize(50);
+	messageText.setPosition(25, 25);
 
 	if (!mainFont.loadFromFile("Terminal.ttf"))
 	{
@@ -213,7 +263,13 @@ int main()
 			{
 				if (event.key.code == sf::Keyboard::Space)
 				{
-					ActionEnabled = true;
+					if (gamestate == 0)
+					{
+						ActionEnabled = true;
+					}
+
+					
+					
 				}
 
 				else if (event.key.code == sf::Keyboard::Right)
@@ -253,6 +309,10 @@ int main()
 			animationClock.restart();
 		}
 
+		if (gamestate == 1)
+		{
+			playerX = -1;
+		}
 
 		window.clear(sf::Color::Black);
 
@@ -312,7 +372,7 @@ int main()
 				if (gameMap.World[i][j].Pit)
 				{
 					pitRect.setPosition((i * 100) + 25, (j * 100) + 25);
-					window.draw(pitRect);
+					//window.draw(pitRect);
 
 					pitSprite.setScale(1.90, 1.90);
 					pitSprite.setPosition(pitRect.getPosition().x - 20, pitRect.getPosition().y - 20);
@@ -359,13 +419,25 @@ int main()
 		playerSprite.setPosition(playerRect.getPosition().x + 25, playerRect.getPosition().y + 25);
 		window.draw(playerSprite);
 
+		if (gamestate == 1)
+		{
+			messageText.setString("YOU WON!");
+			window.draw(messageText);
+		}
+
+		else if (gamestate == 2)
+		{
+			messageText.setString("YOU PERISHED!");
+			window.draw(messageText);
+		}
+
 		window.display();
 
 
 		//-- All logic Methods and Player movement goes Here --//
 		if (ActionEnabled)
 		{
-			Solve(player,RealWorld,path,playerX,playerY,playerDir,gameMap,possible);
+			Solve(player,RealWorld,path,playerX,playerY,playerDir,gameMap,possible,sound);
 
 			ActionEnabled = false;
 		}
@@ -374,7 +446,7 @@ int main()
 }
 
 
-void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & PlayerY,string & playerDir,Map & gw,vector<coor> & possible)
+void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & PlayerY,string & playerDir,Map & gw,vector<coor> & possible,sf::Sound & sound)
 {
 	int startingrow=agent.currentr;
 	int startingcol=agent.currentc;
@@ -389,6 +461,8 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 		{
 			agent.Grab(m);	//This function updates the real world. hasGold returns true
 			GrabbingGold(agent,gw);
+			sound.setBuffer(buffer5);
+			sound.play();
 		}
 		else
 		{
@@ -472,6 +546,8 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 					if(j>0)
 					gw.World[k][j - 1].Smell = false;
 
+					sound.setBuffer(buffer1);
+					sound.play();
 				
 				}
 			
@@ -524,10 +600,15 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 		agent.PrintLocal();
 		ReleasingGold(agent,gw);
 		gamestate=1;			//Win State
+		sound.setBuffer(buffer3);
+		sound.play();
+
 	}
 	if(agent.isStuck())
 	{
 		cout<<endl<<"I'm Stuck"<<endl;
+		sound.setBuffer(buffer2);
+		sound.play();
 		PossibleRoutes(agent,possible);
 
 		int destiny=(*new RandGen).RandInt(0,possible.size()-1);
@@ -545,6 +626,8 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 			
 				cout<<endl<<endl<<endl<<"IM DEAD"<<endl<<endl;
 				gamestate=2; //DEAD STATE
+				sound.setBuffer(buffer4);
+				sound.play();
 				
 				}
 	}
