@@ -544,6 +544,7 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 				{
 			
 				cout<<endl<<endl<<endl<<"IM DEAD"<<endl<<endl;
+				gamestate=2; //DEAD STATE
 				
 				}
 	}
