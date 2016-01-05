@@ -9,17 +9,8 @@
 using namespace std;
 int adj[4][2]={{1,0},{-1,0},{0,1},{0,-1}};
 int gamestate=0;
-struct coor{
+bool wumpusalive=true;
 
-	int row;
-	int col;
-
-	coor(int r,int c)
-	{
-		row=r;
-		col=c;
-	}
-};
 
 void Solve(Agent &,Percept&,vector<coor> &,int &,int &,string &,Map&,vector<coor> &);
 void MovingAgent(Agent ,int &,int &);
@@ -406,7 +397,7 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 				agent.adjacentSafe();	//update the local map
 				agent.PrintLocal();
 			}
-
+			
 			if(current.Smell==false)
 			{
 				agent.nowumpusadjacent(adj);
@@ -428,6 +419,65 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 			agent.CheckInconsistent();	//if both pit and wumpus are present neither is true
 
 			bool moved=false;
+			agent.definetelyWumpus(agent.local);
+			if(agent.wumpusfound)		//WUMPUSU OLDURUYOR
+			{
+				coor wumpuscoor=agent.returnWumpuscoor();
+				if(wumpuscoor.row==agent.currentr ||wumpuscoor.col==agent.currentc)
+				{
+					agent.Shoot(m);
+					m.World[wumpuscoor.row][wumpuscoor.col].Wumpus=false;
+					m.World[wumpuscoor.row][wumpuscoor.col].definetelywumpus=false;
+					m.World[wumpuscoor.row][wumpuscoor.col].Safe=true;
+				
+						agent.local.World[wumpuscoor.row][wumpuscoor.col].Wumpus=false;
+					agent.local.World[wumpuscoor.row][wumpuscoor.col].definetelywumpus=false;
+					agent.local.World[wumpuscoor.row][wumpuscoor.col].Safe=true;
+					wumpusalive=false;
+					gw.World[wumpuscoor.col][abs(4-wumpuscoor.row)].Wumpus=false;
+					int k=wumpuscoor.row;
+					int j=wumpuscoor.col;
+					
+
+
+
+					if(k<4)
+					m.World[k + 1][j].Smell = false;
+					if(k>0)
+					m.World[k - 1][j].Smell = false;
+					if(j<4)
+					m.World[k][j + 1].Smell = false;
+					if(j>0)
+					m.World[k][j - 1].Smell = false;
+				
+							if(k<4)
+							agent.local.World[k + 1][j].Smell = false;
+					if(k>0)
+						agent.local.World[k - 1][j].Smell = false;
+					if(j<4)
+						agent.local.World[k][j + 1].Smell = false;
+					if(j>0)
+						agent.local.World[k][j - 1].Smell = false;
+				
+					k=wumpuscoor.col;
+					j=abs(4-wumpuscoor.row);
+				
+					
+					if(k<4)
+					gw.World[k + 1][j].Smell = false;
+					if(k>0)
+					gw.World[k - 1][j].Smell = false;
+					if(j<4)
+					gw.World[k][j + 1].Smell = false;
+					if(j>0)
+					gw.World[k][j - 1].Smell = false;
+
+				
+				}
+			
+			}
+			cout<<endl<<endl<<endl;
+	printMap(agent.local,5);
 			for(int k=0;k<4 && !moved;k++)		//AGENT TRIES TO MOVE
 			{
 				int newrow=agent.currentr+adj[k][0];
@@ -452,11 +502,12 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 				agent.currentc=path.back().col;
 				path.pop_back();
 				MovingAgent(agent,PlayerX,PlayerY);
+				
 			}
 
 		}
 		cout<<endl<<endl;
-		agent.definetelyWumpus(agent.local);
+		
 		printMap(agent.local,5);
 	}
 
@@ -489,7 +540,12 @@ void Solve(Agent& agent,Percept & m,vector<coor>  & path,int & PlayerX,int & Pla
 		possible.clear();
 		cout<<agent.currentr<<" "<<agent.currentc<<endl;
 		MovingAgent(agent,PlayerX,PlayerY);
-
+		if(m.World[agent.currentr][agent.currentc].Pit==true || m.World[agent.currentr][agent.currentc].Wumpus==true)
+				{
+			
+				cout<<endl<<endl<<endl<<"IM DEAD"<<endl<<endl;
+				
+				}
 	}
 
 

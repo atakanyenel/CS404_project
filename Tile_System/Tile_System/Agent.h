@@ -29,6 +29,7 @@ public:
 	void nopitadjacent(int adj[4][2]);
 		bool hasGold;
 	void definetelyWumpus(Percept &World);
+	coor returnWumpuscoor();
 	bool isStuck();
 	int currentc;
 		int currentr;

@@ -32,6 +32,7 @@ struct Hucre
 		absnopit=false;
 		definetelywumpus=false;
 	}
+
 };
 
 class Percept

@@ -18,22 +18,22 @@ Agent::~Agent(void)
 }
 Percept Agent::GetPercept()
 {
-return local;
+	return local;
 }
 void Agent::LeftTurn()
 {
 	switch (dir)
 	{
-case NORTH:
+	case NORTH:
 		dir=WEST;
 		break;
-case SOUTH:
+	case SOUTH:
 		dir=EAST;
 		break;
-case EAST:
+	case EAST:
 		dir=NORTH;
 		break;
-case WEST:
+	case WEST:
 		dir=SOUTH;
 		break;
 	default:
@@ -44,16 +44,16 @@ void Agent::RightTurn()
 {
 	switch (dir)
 	{
-case NORTH:
+	case NORTH:
 		dir=EAST;
 		break;
-case SOUTH:
+	case SOUTH:
 		dir=WEST;
 		break;
-case EAST:
+	case EAST:
 		dir=SOUTH;
 		break;
-case WEST:
+	case WEST:
 		dir=NORTH;
 		break;
 	default:
@@ -64,22 +64,22 @@ void Agent::Forward()
 {
 	switch (dir)
 	{
-case NORTH:
+	case NORTH:
 		if(currentr<4)
-		currentr++;
+			currentr++;
 		break;
-case SOUTH:
-	if(currentr>0)
-		currentr--;
-break;
-case EAST:
-	if(currentc<4)
-		currentc++;
-break;
-case WEST:
-	if(currentc>0)
-		currentc--;
-	break;
+	case SOUTH:
+		if(currentr>0)
+			currentr--;
+		break;
+	case EAST:
+		if(currentc<4)
+			currentc++;
+		break;
+	case WEST:
+		if(currentc>0)
+			currentc--;
+		break;
 	default:
 		break;
 	}
@@ -124,53 +124,53 @@ void Agent::UpdateLocal(Hucre  current)
 void Agent::PrintLocal()
 {
 	cout<<endl<<"Printing local Percept"<<endl;
-		for (int r=local.size-1;r>-1;r--)
+	for (int r=local.size-1;r>-1;r--)
+	{
+		for (int c =0;c<local.size;c++)
 		{
-			for (int c =0;c<local.size;c++)
+			if(r==currentr && c==currentc)
 			{
-				if(r==currentr && c==currentc)
-				{
-					cout<<" A ";
-				}
-				else if(local.World[r][c].Safe==true)
-				{
-					cout<<" O ";
-				
-				}
-				else
-				{
-					cout<<" X ";
-				}
-			
+				cout<<" A ";
 			}
-				cout<<endl;
+			else if(local.World[r][c].Safe==true)
+			{
+				cout<<" O ";
+
+			}
+			else
+			{
+				cout<<" X ";
+			}
+
 		}
+		cout<<endl;
+	}
 }
 void Agent::adjacentSafe()
 {
 	if(currentr-1>-1)
 	{
 		local.World[currentr-1][currentc].Safe=true;
-	
+
 	}
 	if(currentr+1<local.size)
 	{
 		local.World[currentr+1][currentc].Safe=true;
-	
-		
+
+
 	}
 	if(currentc-1>-1)
 	{
 		local.World[currentr][currentc-1].Safe=true;
-	
-	
+
+
 
 	}
 	if(currentc+1<local.size)
 	{
 		local.World[currentr][currentc+1].Safe=true;
-		
-	
+
+
 	}
 }
 Hucre Agent::getCurrentCell(Percept m)
@@ -190,7 +190,7 @@ void Agent::CheckPit(int adj[4][2])
 			{
 				local[newrow][newcol].Pit=true;
 			}
-		
+
 		}
 	}
 }
@@ -208,7 +208,7 @@ void Agent::CheckWumpus(int adj[4][2])
 			{
 				local[newrow][newcol].Wumpus=true;
 			}
-		
+
 		}
 	}
 }
@@ -248,7 +248,7 @@ void Agent::CheckInconsistent()
 				local[r][c].Wumpus=false;
 				local[r][c].Safe=true;
 			}
-			
+
 		}
 	}
 
@@ -263,7 +263,7 @@ void Agent::nopitadjacent(int adj[4][2]){
 		if(newrow>-1 && newrow<local.size && newcol>-1 && newcol<local.size)
 		{
 			local[newrow][newcol].absnopit=true;
-		
+
 		}
 	}}
 void Agent::nowumpusadjacent(int adj[4][2])
@@ -275,68 +275,83 @@ void Agent::nowumpusadjacent(int adj[4][2])
 		if(newrow>-1 && newrow<local.size && newcol>-1 && newcol<local.size)
 		{
 			local[newrow][newcol].absnowumpus=true;
-		
+
 		}
 	}
 }
 void Agent::definetelyWumpus(Percept &World){
+	
 	if(!wumpusfound){
-	for (int j=0; j<5; j++){
-		for (int k=0; k<5; k++){
-			if(!World[j][k].Safe){
-			if((j>1)&&(k>1)&&(j<4)&&(k<4)){
-				if( ((World[j-1][k].Smell)&&(World[j+1][k].Smell)&&(World[j][k+1].Smell)) || ((World[j-1][k].Smell)&&(World[j+1][k].Smell)&&(World[j][k-1].Smell)) || ((World[j-1][k].Smell)&&(World[j][k+1].Smell)&&(World[j][k-1].Smell))|| ((World[j+1][k].Smell)&&(World[j][k+1].Smell)&&(World[j][k-1].Smell))){
-					World[j][k].definetelywumpus=true;
-					wumpusfound=true;
+		
+		for (int j=0; j<5; j++){
+			for (int  k=0; k<5; k++){
+				if(!World[j][k].Safe){
+					if((j>1)&&(k>1)&&(j<4)&&(k<4)){
+						if( ((World[j-1][k].Smell)&&(World[j+1][k].Smell)&&(World[j][k+1].Smell)) || ((World[j-1][k].Smell)&&(World[j+1][k].Smell)&&(World[j][k-1].Smell)) || ((World[j-1][k].Smell)&&(World[j][k+1].Smell)&&(World[j][k-1].Smell))|| ((World[j+1][k].Smell)&&(World[j][k+1].Smell)&&(World[j][k-1].Smell))){
+							World[j][k].definetelywumpus=true;
+							wumpusfound=true;
+						}
+					}
+					else if((k==0)&&((j!=0)||(j!=4))){
+						if(((World[j][k+1].Smell)&&(World[j-1][k].Smell)) || ((World[j+1][k].Smell)&&(World[j-1][k].Smell)) || ((World[j+1][k].Smell)&&(World[j][k+1].Smell)))
+						{World[j][k].definetelywumpus=true;
+						wumpusfound=true;
+						}
+					}
+					else if((j==0)&&((k!=0)||(k!=4))){
+						if(((World[j][k+1].Smell)&&(World[j][k-1].Smell)) || ((World[j+1][k].Smell)&&(World[j][k-1].Smell)) || ((World[j+1][k].Smell)&&(World[j][k+1].Smell)))
+						{World[j][k].definetelywumpus=true;
+						wumpusfound=true;}
+					}
+					else if((k==4)&&((j!=0)||(j!=4))){
+						if(((World[j][k-1].Smell)&&(World[j-1][k].Smell)) || ((World[j+1][k].Smell)&&(World[j-1][k].Smell)) || ((World[j+1][k].Smell)&&(World[j][k-1].Smell)))
+						{World[j][k].definetelywumpus=true;
+						wumpusfound=true;}
+					}
+					else if((j==4)&&((k!=0)||(k!=4))){
+						if(((World[j][k+1].Smell)&&(World[j][k-1].Smell)) || ((World[j-1][k].Smell)&&(World[j][k-1].Smell)) || ((World[j-1][k].Smell)&&(World[j][k+1].Smell)))
+						{World[j][k].definetelywumpus=true;
+						wumpusfound=true;}
+					}
+					else if((j==0)&&(k==0)){
+						if(World[j][k+1].Smell&&World[j+1][k].Smell)
+						{World[j][k].definetelywumpus=true;
+						wumpusfound=true;}
+					}
+					else if((j==4)&&(k==0)){
+						if(World[j][k+1].Smell&&World[j-1][k].Smell)
+						{World[j][k].definetelywumpus=true;
+						wumpusfound=true;}
+					}
+					else if((j==0)&&(k==4)){
+						if(World[j+1][k].Smell&&World[j][k-1].Smell)
+						{World[j][k].definetelywumpus=true;
+						wumpusfound=true;}
+					}
+					else if((j==4)&&(k==4)){
+						if(World[j-1][k].Smell&&World[j][k-1].Smell)
+						{World[j][k].definetelywumpus=true;
+						wumpusfound=true;}
+					}
 				}
 			}
- 			else if((k==0)&&((j!=0)||(j!=4))){
-				if(((World[j][k+1].Smell)&&(World[j-1][k].Smell)) || ((World[j+1][k].Smell)&&(World[j-1][k].Smell)) || ((World[j+1][k].Smell)&&(World[j][k+1].Smell)))
-					{World[j][k].definetelywumpus=true;
-						wumpusfound=true;
-					}
-			}
-			else if((j==0)&&((k!=0)||(k!=4))){
-				if(((World[j][k+1].Smell)&&(World[j][k-1].Smell)) || ((World[j+1][k].Smell)&&(World[j][k-1].Smell)) || ((World[j+1][k].Smell)&&(World[j][k+1].Smell)))
-					{World[j][k].definetelywumpus=true;
-					wumpusfound=true;}
-			}
-			else if((k==4)&&((j!=0)||(j!=4))){
-				if(((World[j][k-1].Smell)&&(World[j-1][k].Smell)) || ((World[j+1][k].Smell)&&(World[j-1][k].Smell)) || ((World[j+1][k].Smell)&&(World[j][k-1].Smell)))
-					{World[j][k].definetelywumpus=true;
-					wumpusfound=true;}
-			}
-			else if((j==4)&&((k!=0)||(k!=4))){
-				if(((World[j][k+1].Smell)&&(World[j][k-1].Smell)) || ((World[j-1][k].Smell)&&(World[j][k-1].Smell)) || ((World[j-1][k].Smell)&&(World[j][k+1].Smell)))
-					{World[j][k].definetelywumpus=true;
-					wumpusfound=true;}
-			}
-			else if((j==0)&&(k==0)){
-				if(World[j][k+1].Smell&&World[j+1][k].Smell)
-					{World[j][k].definetelywumpus=true;
-					wumpusfound=true;}
-			}
-			else if((j==4)&&(k==0)){
-				if(World[j][k+1].Smell&&World[j-1][k].Smell)
-					{World[j][k].definetelywumpus=true;
-					wumpusfound=true;}
-			}
-			else if((j==0)&&(k==4)){
-				if(World[j+1][k].Smell&&World[j][k-1].Smell)
-					{World[j][k].definetelywumpus=true;
-					wumpusfound=true;}
-			}
-			else if((j==4)&&(k==4)){
-				if(World[j-1][k].Smell&&World[j][k-1].Smell)
-					{World[j][k].definetelywumpus=true;
-					wumpusfound=true;}
-			}
-			}
-	}
 		}
+	
 	}
 }
-
+coor Agent::returnWumpuscoor()
+{
+	for (int row=0;row<local.size;row++)
+	{
+		for (int col=0;col<local.size;col++)
+		{
+			if(local.World[row][col].definetelywumpus==true)
+				return *new coor(row,col);
+		
+		}
+	}
+	return *new coor(-1,-1);
+}
 bool Agent::isStuck()
 {
 	for(int row=0;row<local.size;row++)
@@ -345,10 +360,10 @@ bool Agent::isStuck()
 		{
 			if(local.World[row][col].Safe==true && local.World[row][col].visited==false)
 				return false;
-			
-		
+
+
 		}
-		
+
 	}
 	return true;
 }
