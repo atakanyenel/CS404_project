@@ -44,9 +44,9 @@ struct Map
 		//-- Enter World Data Here --//
 		World[4][0].Gold = true; //World[1][2].Gold=true; World[4][0]
 		
-		World[1][3].Pit = true;
+		//World[1][3].Pit = true;
 		World[0][0].Pit=true;
-		World[4][4].Pit=true;
+		//World[4][4].Pit=true;
 
 		World[4][1].Wumpus = true;
 		setRules();
